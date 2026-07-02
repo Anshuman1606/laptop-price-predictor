@@ -1,77 +1,146 @@
-import streamlit as st
+from flask import Flask, render_template, request
 import pickle
 import numpy as np
 
-# import the model
-pipe = pickle.load(open('pipe.pkl','rb'))
-df = pickle.load(open('df.pkl','rb'))
+app = Flask(__name__)
 
-st.title("Laptop Price Predictor")
+# -------------------------------
+# Load Model & Dataset
+# -------------------------------
 
-# brand
-company = st.selectbox('Brand',df['Company'].unique())
+pipe = pickle.load(open("pipe.pkl", "rb"))
+df = pickle.load(open("df.pkl", "rb"))
 
-# type of laptop
-type = st.selectbox('Type',df['TypeName'].unique())
+# -------------------------------
+# Home Page
+# -------------------------------
 
-# Ram
-ram = st.selectbox('RAM(in GB)',[2,4,6,8,12,16,24,32,64])
+@app.route("/")
+def home():
 
-# weight
-weight = st.number_input('Weight of the Laptop')
+    return render_template(
+        "index.html",
 
-# Touchscreen
-touchscreen = st.selectbox('Touchscreen',['No','Yes'])
+        company=sorted(df["Company"].unique()),
 
-# IPS
-ips = st.selectbox('IPS',['No','Yes'])
+        type=sorted(df["TypeName"].unique()),
 
-# screen size
-screen_size = st.slider('Scrensize in inches', 10.0, 18.0, 13.0)
+        cpu=sorted(df["Cpu brand"].unique()),
 
-# resolution
-resolution = st.selectbox('Screen Resolution',['1920x1080','1366x768','1600x900','3840x2160','3200x1800','2880x1800','2560x1600','2560x1440','2304x1440'])
+        gpu=sorted(df["Gpu brand"].unique()),
 
-#cpu
-cpu = st.selectbox('CPU',df['Cpu brand'].unique())
-
-hdd = st.selectbox('HDD(in GB)',[0,128,256,512,1024,2048])
-
-ssd = st.selectbox('SSD(in GB)',[0,8,128,256,512,1024])
-
-gpu = st.selectbox('GPU',df['Gpu brand'].unique())
-
-os = st.selectbox('OS',df['os'].unique())
-
-if st.button('Predict Price'):
-    # query
-    ppi = None
-    if touchscreen == 'Yes':
-        touchscreen = 1
-    else:
-        touchscreen = 0
-
-    if ips == 'Yes':
-        ips = 1
-    else:
-        ips = 0
-
-    X_res = int(resolution.split('x')[0])
-    Y_res = int(resolution.split('x')[1])
-    ppi = ((X_res**2) + (Y_res**2))**0.5/screen_size
-    query = np.array([company,type,ram,weight,touchscreen,ips,ppi,cpu,hdd,ssd,gpu,os])
-
-    query = query.reshape(1,12)
-    predicted_price = int(np.exp(pipe.predict(query)[0]))
-
-    st.balloons()
-    st.success("🎉 Prediction Successful!")
-    st.markdown(
-        f"""
-        ## 💻 Laptop Price Estimate
-
-        ### **₹ {predicted_price:,}**
-
-        *This is the estimated market price based on the selected configuration.*
-        """
+        os=sorted(df["os"].unique())
     )
+
+
+# -------------------------------
+# Prediction Route
+# -------------------------------
+
+@app.route("/predict", methods=["POST"])
+def predict():
+
+    try:
+
+        company = request.form["company"]
+        type_name = request.form["type"]
+
+        ram = int(request.form["ram"])
+        weight = float(request.form["weight"])
+
+        touchscreen = request.form["touchscreen"]
+        ips = request.form["ips"]
+
+        screen_size = float(request.form["screen_size"])
+        resolution = request.form["resolution"]
+
+        cpu = request.form["cpu"]
+
+        hdd = int(request.form["hdd"])
+        ssd = int(request.form["ssd"])
+
+        gpu = request.form["gpu"]
+        os = request.form["os"]
+
+        # -------------------------
+        # Convert Yes/No
+        # -------------------------
+
+        touchscreen = 1 if touchscreen == "Yes" else 0
+        ips = 1 if ips == "Yes" else 0
+
+        # -------------------------
+        # Calculate PPI
+        # -------------------------
+
+        x_res = int(resolution.split("x")[0])
+        y_res = int(resolution.split("x")[1])
+
+        ppi = ((x_res**2 + y_res**2) ** 0.5) / screen_size
+
+        # -------------------------
+        # Prediction
+        # -------------------------
+
+        query = np.array([
+            company,
+            type_name,
+            ram,
+            weight,
+            touchscreen,
+            ips,
+            ppi,
+            cpu,
+            hdd,
+            ssd,
+            gpu,
+            os
+        ]).reshape(1, 12)
+
+        prediction = int(np.exp(pipe.predict(query)[0]))
+
+        # -------------------------
+        # Result Page
+        # -------------------------
+
+        return render_template(
+
+            "result.html",
+
+            price=f"{prediction:,}",
+
+            company=company,
+
+            type=type_name,
+
+            ram=ram,
+
+            weight=weight,
+
+            cpu=cpu,
+
+            gpu=gpu,
+
+            os=os,
+
+            ssd=ssd,
+
+            hdd=hdd,
+
+            screen_size=screen_size
+        )
+
+    except Exception as e:
+
+        return render_template(
+            "error.html",
+            error=str(e)
+        )
+
+
+# -------------------------------
+# Run App
+# -------------------------------
+
+if __name__ == "__main__":
+    app.run(debug=True)
