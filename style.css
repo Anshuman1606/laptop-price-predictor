@@ -1,0 +1,409 @@
+/* ===========================
+Google Font
+=========================== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* ===========================
+Global
+=========================== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+    scroll-behavior:smooth;
+}
+
+body{
+    background:linear-gradient(135deg,#0f172a,#1e293b,#2563eb);
+    background-size:300% 300%;
+    animation:gradientAnimation 12s ease infinite;
+    color:#fff;
+    overflow-x:hidden;
+    min-height:100vh;
+}
+
+@keyframes gradientAnimation{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.container{
+    max-width:1200px;
+}
+
+section{
+    width:100%;
+    overflow:hidden;
+}
+
+/* ===========================
+Navbar
+=========================== */
+
+.navbar{
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(18px);
+    box-shadow:0 8px 25px rgba(0,0,0,.25);
+}
+
+.navbar-brand{
+    font-size:1.5rem;
+    font-weight:700;
+}
+
+.nav-link{
+    color:#fff !important;
+    margin-left:18px;
+    transition:.3s;
+}
+
+.nav-link:hover{
+    color:#38bdf8 !important;
+}
+
+/* ===========================
+Hero Section
+=========================== */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    padding:100px 0 70px;
+}
+
+.hero h1{
+    font-size:3.4rem;
+    font-weight:700;
+    line-height:1.2;
+}
+
+.hero p{
+    margin-top:25px;
+    font-size:18px;
+    color:rgba(255,255,255,.85);
+}
+
+.hero-image{
+    width:100%;
+    max-width:480px;
+    display:block;
+    margin:auto;
+    animation:float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%{transform:translateY(0);}
+    50%{transform:translateY(-15px);}
+    100%{transform:translateY(0);}
+}
+
+/* ===========================
+Buttons
+=========================== */
+
+.btn-primary{
+    background:#2563eb;
+    border:none;
+    padding:14px 34px;
+    border-radius:12px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.btn-primary:hover{
+    background:#1d4ed8;
+    transform:translateY(-4px);
+    box-shadow:0 15px 30px rgba(37,99,235,.35);
+}
+
+/* ===========================
+Glass Card
+=========================== */
+
+.glass-card{
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:20px;
+    padding:40px;
+    box-shadow:0 20px 40px rgba(0,0,0,.25);
+    width:100%;
+}
+
+/* ===========================
+Prediction Form
+=========================== */
+
+.prediction-section{
+    padding:80px 0;
+}
+
+.row{
+    row-gap:18px;
+}
+
+.form-label{
+    font-weight:500;
+    margin-bottom:8px;
+}
+
+.form-control,
+.form-select,
+.form-range{
+    width:100%;
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    border:none;
+    border-radius:12px;
+    padding:12px;
+}
+
+.form-control::placeholder{
+    color:#ddd;
+}
+
+.form-control:focus,
+.form-select:focus{
+    background:rgba(255,255,255,.1);
+    color:#fff;
+    box-shadow:0 0 0 .2rem rgba(59,130,246,.35);
+}
+
+.form-select option{
+    color:#000;
+}
+
+/* ===========================
+Stats
+=========================== */
+
+.stat-card{
+    background:rgba(255,255,255,.08);
+    border-radius:18px;
+    text-align:center;
+    padding:20px;
+    transition:.3s;
+    height:100%;
+}
+
+.stat-card:hover{
+    transform:translateY(-8px);
+}
+
+.stat-card h2{
+    font-weight:700;
+}
+
+/* ===========================
+Feature Cards
+=========================== */
+
+.feature-card{
+    background:rgba(255,255,255,.08);
+    border-radius:15px;
+    padding:18px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    transition:.3s;
+}
+
+.feature-card:hover{
+    transform:translateY(-6px);
+}
+
+.feature-card i{
+    font-size:22px;
+    color:#22c55e;
+}
+
+/* ===========================
+Tech Cards
+=========================== */
+
+.tech-card{
+    background:rgba(255,255,255,.08);
+    border-radius:20px;
+    padding:35px;
+    transition:.3s;
+    height:100%;
+}
+
+.tech-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 15px 35px rgba(0,0,0,.3);
+}
+
+.tech-card i{
+    color:#38bdf8;
+    font-size:60px;
+}
+
+/* ===========================
+Result Page
+=========================== */
+
+.result-card{
+    margin-top:40px;
+}
+
+.success-icon{
+    color:#22c55e;
+    font-size:70px;
+}
+
+.price-box{
+    background:linear-gradient(135deg,#2563eb,#22c55e);
+    border-radius:18px;
+    padding:30px;
+    text-align:center;
+    font-size:48px;
+    font-weight:700;
+}
+
+.config-card{
+    background:rgba(255,255,255,.08);
+    border-radius:15px;
+    padding:20px;
+    height:100%;
+}
+
+.config-card span{
+    display:block;
+    opacity:.75;
+    font-size:14px;
+    margin-bottom:5px;
+}
+
+.config-card strong{
+    font-size:18px;
+}
+
+/* ===========================
+Footer
+=========================== */
+
+footer{
+    background:rgba(0,0,0,.18);
+    margin-top:80px;
+    padding:40px 0;
+}
+
+footer a{
+    color:#fff;
+    transition:.3s;
+}
+
+footer a:hover{
+    color:#38bdf8;
+}
+
+/* ===========================
+Animations
+=========================== */
+
+.hidden{
+    opacity:0;
+    transform:translateY(40px);
+    transition:.8s;
+}
+
+.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* ===========================
+Scrollbar
+=========================== */
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#3b82f6;
+    border-radius:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#111827;
+}
+
+/* ===========================
+Responsive
+=========================== */
+
+@media(max-width:992px){
+
+.hero{
+    min-height:auto;
+    text-align:center;
+    padding:70px 0;
+}
+
+.hero h1{
+    font-size:2.5rem;
+}
+
+.hero-image{
+    max-width:340px;
+    margin-top:40px;
+}
+
+.glass-card{
+    padding:25px;
+}
+
+.price-box{
+    font-size:38px;
+}
+
+}
+
+@media(max-width:768px){
+
+.hero h1{
+    font-size:2rem;
+}
+
+.hero p{
+    font-size:16px;
+}
+
+.stat-card{
+    margin-bottom:15px;
+}
+
+.tech-card{
+    margin-bottom:20px;
+}
+
+}
+
+@media(max-width:576px){
+
+.hero h1{
+    font-size:1.8rem;
+}
+
+.hero-image{
+    max-width:250px;
+}
+
+.btn-primary{
+    width:100%;
+}
+
+.glass-card{
+    padding:20px;
+}
+
+.price-box{
+    font-size:30px;
+}
+
+}
